@@ -8803,7 +8803,7 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.topList = topList;var _config = __webpack_require__(/*! ./config.js */ 20);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.topList = topList;exports.list = list;var _config = __webpack_require__(/*! ./config.js */ 20);
 
 function topList() {
   return new Promise(function (reslove, reject) {
@@ -8822,6 +8822,12 @@ function topList() {
       complete: function complete() {} });
 
   });
+
+}
+function list(id) {
+  return uni.request({
+    url: "".concat(_config.baseUrl, "/playlist/detail?id=").concat(id),
+    method: 'GET' });
 
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -19,4 +19,10 @@ export function topList(){
 	})
 
 }
+export function list(id){
+	return uni.request({
+		url: `${baseUrl}/playlist/detail?id=${id}`,
+		method: 'GET'
+	});
+}
 	

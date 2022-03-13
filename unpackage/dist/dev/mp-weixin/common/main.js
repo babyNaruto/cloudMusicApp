@@ -16,6 +16,20 @@ _App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread({},
 _App.default));
 
+_vue.default.filter('formatCount', function (value) {
+  if (value >= 10000 && value <= 100000000) {
+    value /= 10000;
+    return value.toFixed(1) + '万';
+
+  } else
+  if (value > 100000000) {
+    value /= 100000000;
+    return value.toFixed(1) + '亿';
+  } else
+  {
+    return value;
+  }
+});
 createApp(app).$mount();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 
