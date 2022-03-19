@@ -30,6 +30,10 @@ _vue.default.filter('formatCount', function (value) {
     return value;
   }
 });
+_vue.default.filter('formatTime', function (value) {
+  var date = new Date(value);
+  return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
+});
 createApp(app).$mount();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 
