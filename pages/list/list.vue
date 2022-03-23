@@ -84,7 +84,7 @@
 					this.playList = res[1].data.playlist;
 					// console.log(this.playList)
 					this.privileges = res[1].data.privileges;
-					
+					this.$store.commit('INIT_TOPLISTIDS',res[1].data.playlist.trackIds);
 					//加载成功之后
 					this.isLoading = false;
 					uni.hideLoading();

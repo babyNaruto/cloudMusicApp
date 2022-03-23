@@ -3,7 +3,7 @@
 		<musichead title="网易云音乐" :icon="false"></musichead>
 		<view class="container">
 			<scroll-view scroll-y="true" >
-				<view class="index-search">
+				<view class="index-search" @tap="handleToSearch">
 					<text class="iconfont icon-sousuo" ></text>
 					<input type="text"  placeholder="搜索歌曲" />
 				</view>
@@ -65,7 +65,12 @@
 					fail: () => {},
 					complete: () => {}
 				});
-			}
+			},
+			handleToSearch(){
+				uni.navigateTo({
+					url: '/pages/search/search'
+				});
+			},
 		}
 	}
 </script>

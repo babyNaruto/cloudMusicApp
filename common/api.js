@@ -58,4 +58,26 @@ export function songUrl(songId){
 		url: `${baseUrl}/song/url?id=${songId}`,
 		method: 'GET'
 	});
-}	
+}
+//热词接口  /search/hot/detail
+export function searchHot(){
+	return uni.request({
+		url: `${baseUrl}/search/hot/detail`,
+		method: 'GET'
+	});
+}
+
+//搜索结果接口  /search?keywords=海阔天空
+export function searchWord(word){
+	return uni.request({
+		url: `${baseUrl}/search?keywords=${word}`,
+		method: 'GET'
+	});
+}
+//下拉提示接口 /search/suggest?keywords=海阔天空
+export function searchSuggest(word){
+	return uni.request({
+		url: `${baseUrl}/search/suggest?keywords=${word}&type=mobile`,
+		method: 'GET'
+	});
+}

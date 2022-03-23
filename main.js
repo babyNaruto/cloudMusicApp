@@ -1,11 +1,13 @@
 import App from './App'
+import store from 'store/index.js'
 
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
-    ...App
+    ...App,
+	store
 })
 Vue.filter('formatCount', function(value){
 	if(value >= 10000 && value <= 100000000){
