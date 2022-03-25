@@ -2,9 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/list/list",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/search/search"
   ],
-  "requiredBackgroundModes": ["audio"],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
