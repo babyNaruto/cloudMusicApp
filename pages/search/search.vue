@@ -4,12 +4,13 @@
 
 		<view class="container">
 			<scroll-view scroll-y="true">
+				<view class="search-search">
+							<text class="iconfont icon-sousuo"></text>
+							<input type="text" placeholder="搜索歌曲" v-model="searchWord" @confirm="handleToSearch(searchWord)" @input="handleToSuggest" />
+							<text class="iconfont icon-guanbijiantou" v-show="searchType != 1" @tap="handleToClose"></text>
+				</view>
 				<block v-if="searchType == 1">
-					<view class="search-search">
-								<text class="iconfont icon-sousuo"></text>
-								<input type="text" placeholder="搜索歌曲" v-model="searchWord" @confirm="handleToSearch(searchWord)" />
-								<text class="iconfont icon-guanbijiantou"></text>
-							</view>
+					
 							<view class="search-history">
 								<view class="search-history-head">
 									<text>历史记录</text>
@@ -53,10 +54,28 @@
 				</block>
 				<block v-else-if="searchType == 0">
 					<view class="search-result">
-						
+						<view class="search-result-item" v-for="(item,index) in searchList" :key="index" @tap="handleToDetail(item.id)">
+							<view class="search-result-word">
+								<view>{{ item.name}}</view>
+								<view>{{ item.artists[0].name}} - {{item.album.name}}</view>
+							</view>
+							<text class="iconfont icon-bofang"></text>
+						</view>
 					</view>
 				</block>
-
+				<block v-else-if="searchType == 2">
+					<view class="search-suggest">
+						<view class="search-suggest-head">
+							搜索“{{ searchWord}}”
+						</view>
+						<view class="search-suggest-item" v-for="(item, index) in searchSuggest" :key="index" @tap="handleToWord(item.keyword)">
+							<text class="iconfont icon-sousuo"></text>{{ item.keyword}}
+						</view>
+					<!-- 	<view class="search-suggest-item">
+							<text class="iconfont icon-sousuo"></text>少年抖音
+						</view> -->
+					</view>
+				</block>
 			</scroll-view>
 		</view>
 	</view>
@@ -72,7 +91,9 @@
 				searchHot: [],
 				searchWord: '',
 				searchHistory: [],
-				searchType: 1
+				searchType: 2,
+				searchList: [],
+				searchSuggest: []
 			}
 		},
 		onLoad() {
@@ -91,7 +112,8 @@
 		},
 		methods: {
 			handleToWord(word){
-				this.searchWord = word
+				this.searchWord = word;
+				this.handleToSearch(word);
 			},
 			handleToSearch(word){
 				// console.log(word)
@@ -104,6 +126,7 @@
 					key: 'searchHistory',
 					data: this.searchHistory
 				});
+				this.getSearchList(word);
 				
 			},
 			handleToClear(){
@@ -111,6 +134,36 @@
 					key: 'searchHistory',
 					success: (res) => {
 						this.searchHistory = [];
+					}
+				})
+			},
+			getSearchList(word){
+				searchWord(word).then((res)=>{
+					if(res[1].data.code == '200'){
+						this.searchList = res[1].data.result.songs;
+						this.searchType = 0;
+					}
+				})
+			},
+			handleToClose(){
+				this.searchWord = '';
+				this.searchType = 1;
+			},
+			handleToDetail(songId){
+				uni.navigateTo({
+					url:'/pages/detail/detail?songId=' + songId
+				})
+			},
+			handleToSuggest(ev){
+				let value =  ev.detail.value;
+				if(!value){
+					this.searchType = 1;
+					return
+				}
+				searchSuggest(value).then((res)=>{
+					if(res[1].data.code == '200'){
+						this.searchSuggest = res[1].data.result.allMatch;
+						this.searchType = 2;
 					}
 				})
 			}
@@ -196,5 +249,51 @@
 	.search-hot-count{
 		color:#878787;
 		
+	}
+	.search-result{
+		border-top: 2rpx #e4e4e4 solid;
+		padding: 30rpx;
+	}
+	.search-result-item{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 30rpx;
+		margin-bottom: 30rpx;
+		border-bottom: 2rpx #e4e4e4 solid;
+	}
+	.search-result-word{
+		
+	}
+	.search-result-word view:nth-child(1){
+		font-size: 28rpx;
+		color: #235790;
+		margin-bottom: 12rpx;
+	}
+	.search-result-word view:nth-child(2){
+		font-size: 22rpx;
+		color: #898989;
+	}
+	.search-result-item text{
+		font-size: 50rpx;
+	}
+	.search-suggest{
+		border-top: 2rpx #E4E4E4 solid;
+		padding: 30rpx;
+		font-size: 26rpx;
+	}
+	.search-suggest-head{
+		color: #4574a5;
+		margin-bottom: 74rpx;
+	}
+	.search-suggest-item{
+		color: #5d5d5d;
+		margin-bottom: 74rpx;
+	}
+	.search-suggest-item text{
+		color: #bdbdbd;
+		margin-right: 28rpx;
+		position: relative;
+		top: 2rpx;
 	}
 </style>
