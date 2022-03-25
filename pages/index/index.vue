@@ -7,7 +7,19 @@
 					<text class="iconfont icon-sousuo" ></text>
 					<input type="text"  placeholder="搜索歌曲" />
 				</view>
-				<view class="index-list">
+				<view v-if="isLoading">
+					<m-for-skeleton
+					:avatarSize="200"
+					:row="3"
+					:loading="isLoading"
+					isarc='square'
+					v-for="(item,key) in 4"
+					:titleStyle="{}"
+					:title="false"
+					:key="key">							
+					</m-for-skeleton>							
+				</view>
+				<view class="index-list" v-else >
 <!-- 					<view class="index-list-item">
 						<view class="index-list-img">
 							<image src="../../static/wangyiyunyinyue.png" mode=""></image>
@@ -40,20 +52,24 @@
 	import musichead from '../../components/musichead/musichead.vue'
 	import '@/common/iconfont.css'
 	import { topList } from "../../common/api.js"
+	import mForSkeleton from '@/components/m-for-skeleton/m-for-skeleton.vue'
 	export default {
 		data() {
 			return {
-				topList: []
+				topList: [],
+				isLoading: true
 			}
 		},
 		components:{
-			musichead
+			musichead,
+			mForSkeleton
 		},
 		onLoad() {
 			topList().then((res) =>{
 				console.log(res);
 				if(res.length){
 					this.topList = res;
+					this.isLoading = false
 				}
 			});
 		},
